@@ -1,0 +1,307 @@
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  width: 100%;
+  font-family: 'Helvetica', 'Verdana', sans-serif;
+  font-weight: 400;
+  // Not implemented yet but is a nice solution for async loading fonts
+  font-display: optional;
+  color: #444;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  overflow: hidden;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+  align-content: stretch;
+  background: #ececec;
+}
+
+.header {
+  width: 100%;
+  height: 56px;
+  color: #FFF;
+  background: #3F51B5;
+  position: fixed;
+  font-size: 20px;
+  box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14),
+    0 2px 9px 1px rgba(0, 0, 0, 0.12),
+    0 4px 2px -2px rgba(0, 0, 0, 0.2);
+  padding: 16px 16px 0 16px;
+  will-change: transform;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+  align-content: center;
+  transition: transform 0.233s cubic-bezier(0,0,0.21,1) 0.1s;
+  z-index: 1000;
+
+  .headerButton {
+    width: 24px;
+    height: 24px;
+    margin-right: 16px;
+    text-indent: -30000px;
+    overflow: hidden;
+    opacity: 0.54;
+    transition: opacity 0.333s cubic-bezier(0,0,0.21,1);
+    border: none;
+    outline: none;
+    cursor: pointer;
+  }
+  #butRefresh {
+    background: url(/images/ic_refresh_white_24px.svg) center center no-repeat;
+  }
+  #butAdd {
+    background: url(/images/ic_add_white_24px.svg) center center no-repeat;
+  }
+
+}
+
+.header__title {
+  font-weight: 400;
+  font-size: 20px;
+  margin: 0;
+  flex: 1;
+}
+
+.loader {
+  left: 50%;
+  top: 50%;
+  position: fixed;
+  transform: translate(-50%, -50%);
+
+  #ud811Spinner {
+    box-sizing: border-box;
+    stroke: #673AB7;
+    stroke-width: 3px;
+    transform-origin: 50%;
+
+    animation: line 1.6s cubic-bezier(0.4, 0.0, 0.2, 1) infinite,
+      rotate 1.6s linear infinite;
+  }
+
+  @keyframes rotate {
+
+    from {
+      transform: rotate(0)
+    }
+
+    to {
+      transform: rotate(450deg);
+    }
+  }
+
+  @keyframes line {
+    0% {
+      stroke-dasharray: 2, 85.964;
+      transform: rotate(0);
+    }
+
+    50% {
+      stroke-dasharray: 65.973, 21.9911;
+      stroke-dashoffset: 0;
+    }
+
+    100% {
+      stroke-dasharray: 2, 85.964;
+      stroke-dashoffset: -65.973;
+      transform: rotate(90deg);
+    }
+  }
+}
+
+.main {
+  padding-top: 60px;
+  flex: 1;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.dialog-container {
+  background: rgba(0,0,0,0.57);
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  pointer-events: none;
+  will-change: opacity;
+  transition: opacity 0.333s cubic-bezier(0,0,0.21,1);
+}
+
+.dialog-container--visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.dialog {
+  background: #FFF;
+  border-radius: 2px;
+  box-shadow: 0 0 14px rgba(0,0,0,.24),
+      0 14px 28px rgba(0,0,0,.48);
+  min-width: 280px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) translateY(30px);
+  transition: transform 0.333s cubic-bezier(0,0,0.21,1) 0.05s;
+  padding: 24px;
+}
+
+.card {
+  padding: 16px;
+  position: relative;
+  box-sizing: border-box;
+  background: #fff;
+  border-radius: 2px;
+  margin: 16px;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),
+    0 3px 1px -2px rgba(0,0,0,.2),
+    0 1px 5px 0 rgba(0,0,0,.12);
+}
+
+.weather-forecast {
+
+  .location {
+    font-size: 1.75em;
+  }
+  .date, .description {
+    font-size: 1.25em;
+  }
+
+  .current {
+    display: flex;
+
+    .icon {
+      width: 128px;
+      height: 128px;
+    }
+
+    .visual {
+      display: flex;
+      font-size: 4em;
+
+      .scale {
+        font-size: 0.5em;
+        vertical-align: super;
+      }
+    }
+
+    .visual, .description {
+      flex-grow: 1;
+    }
+
+    .feels-like:before {
+      content: "Feels like: ";
+      color: #888;
+    }
+
+    .wind:before {
+      content: "Wind: ";
+      color: #888;
+    }
+
+    .precip:before {
+      content: "Precipitation: ";
+      color: #888;
+    }
+
+    .humidity:before {
+      content: "Humidity: ";
+      color: #888;
+    }
+
+    .pollen:before {
+      content: "Pollen Count: ";
+      color: #888;
+    }
+
+    .pcount:before {
+      content: "Pollen ";
+      color: #888;
+    }
+  }
+
+  .future {
+    display: flex;
+
+    .oneday {
+      flex-grow: 1;
+      text-align: center;
+
+      .icon {
+        width: 64px;
+        height: 64px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .temp-high, .temp-low {
+        display: inline-block;
+      }
+
+      .temp-low {
+        color: #888;
+      }
+    }
+  }
+
+  .icon {
+    background-repeat: no-repeat;
+    background-size: contain;
+    &.clear-day { background-image: url('/images/clear.png'); }
+    &.clear-night { background-image: url('/images/clear.png'); }
+    &.rain { background-image: url('/images/rain.png'); }
+    &.snow { background-image: url('/images/snow.png'); }
+    &.sleet { background-image: url('/images/sleet.png'); }
+    &.wind { background-image: url('/images/wind.png'); }
+    &.fog { background-image: url('/images/fog.png'); }
+    &.cloudy { background-image: url('/images/cloudy.png'); }
+    &.partly-cloudy-day { background-image: url('/images/partly-cloudy.png'); }
+    &.partly-cloudy-night { background-image: url('/images/partly-cloudy.png'); }
+    &.thunderstorms { background-image: url('/images/thunderstorms.png'); }
+  }
+}
+
+@media (max-width: 450px) {
+  .weather-forecast {
+    .date, .description {
+      font-size: 0.9em;
+    }
+    .current {
+      .icon {
+        width: 96px;
+        height: 96px;
+      }
+      .visual {
+        font-size: 3em;
+      }
+    }
+    .future {
+      .oneday {
+        .icon {
+          width: 32px;
+          height: 32px;
+        }
+      }
+    }
+
+  }
+}
