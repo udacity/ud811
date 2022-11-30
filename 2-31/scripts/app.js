@@ -165,14 +165,19 @@
       caches.match(url).then(function(response) {
         if (response) {
           response.json().then(function(json) {
-            json.key = key;
-            json.label = label;
-            app.updateForecastCard(json);
+            // Only update if th XHR is still pending, otherwise the XHR
+            // has already returned and provided the latest data
+            if( app.hasRequestPending ) {
+              json.key = key;
+              json.label = label;
+              app.updateForecastCard(json);
+            }
           });
         }
       });
     }
     // Make the XHR to get the data, then update the card
+    app.hasRequestPending = true;
     var request = new XMLHttpRequest();
     request.onreadystatechange = function() {
       if (request.readyState === XMLHttpRequest.DONE) {
@@ -180,6 +185,7 @@
           var response = JSON.parse(request.response);
           response.key = key;
           response.label = label;
+          app.hasRequestPending = false;
           app.updateForecastCard(response);
         }
       }
